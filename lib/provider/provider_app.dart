@@ -39,10 +39,11 @@ class TowerBoxProvider extends ChangeNotifier {
     Timer.periodic(const Duration(seconds: 2), (timer) {
       print(timer.tick);
       counter++;
-      if (counter == 2) {
+      // ignore: prefer_is_empty
+      if (box.length == 0) {
         print('Cancel timer');
-
-        // timer.cancel();
+    print('hghhhhhhhhhhhhhhhhhhhhhhhtptal           ' + counter.toString());
+        timer.cancel();
       }
     });
   }

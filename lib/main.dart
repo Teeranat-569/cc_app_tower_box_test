@@ -40,8 +40,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   bool tap1 = false, tap2 = false, tapPink = false, tap3 = false;
-  late Animation<double> animation;
-  late AnimationController controller;
+  late Animation<double> animation, animation2;
+  late AnimationController controller, controller2;
   double h = 0.0;
   dynamic kk;
   @override
@@ -51,6 +51,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     provider.tower();
     controller =
         AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    controller2 =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    animation2 = Tween<double>(end: 0).animate(controller2)
+      ..addListener(() {
+        setState(() {});
+        // print('$status');
+      });
+
     animation = Tween<double>(end: 0).animate(controller)
       ..addListener(() {
         setState(() {});
@@ -74,59 +82,54 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             width: size.width,
             height: size.height * 0.1625,
             color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Buttons(
-                  color: ColorApp.pink,
-                  controller: controller,
-                  onTapDown: (_) {
-                    controller.forward().whenComplete(() {
-                      tap1 = true;
-                      tap3 = true;
+            child: Buttons(
+              controller2: controller2,
+              color2: ColorApp.blue,
+              color: ColorApp.pink,
+              controller: controller,
+              onTapDown: (_) {
+                // towerBoxProvider.onTap();
+                controller.forward().whenComplete(() {
+                  tap1 = true;
+                  // tap3 = true;
 
-                      towerBoxProvider.tapPinks();
-                      // towerBoxProvider.tap(tap1, tap2);
-                      print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
-                      print('mmmmmmmmmmmmmmmmm--------mmmmmmmmmtap2' +
-                          tap3.toString());
+                  towerBoxProvider.tapPinks();
+                  // towerBoxProvider.tap(tap1, tap2);
+                  print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
+                  // print('mmmmmmmmmmmmmmmmm--------mmmmmmmmmtap2' +
+                  //     tap3.toString());
 
-                      towerBoxProvider.tap(tap1, tap3);
-                      controller.reset();
-                    });
-                  },
-                  onTapUp: (_) {
-                    tap1 = false;
-                    print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
-                    if (controller.status == AnimationStatus.forward) {
-                      controller.reverse();
-                    }
-                  },
-                ),
-                Buttons(
-                  color: ColorApp.blue,
-                  controller: controller,
-                  onTapDown: (_) {
-                    controller.forward().whenComplete(() {
-                      setState(() {
-                        tap2 = true;
-                      });
+                  towerBoxProvider.tap(tap1, tap2);
+                  controller.reset();
+                });
+              },
+              onTapUp: (_) {
+                tap1 = false;
+                print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
+                if (controller.status == AnimationStatus.forward) {
+                  controller.reverse();
+                }
+              },
+              onTapDown2: (_) {
+                controller2.forward().whenComplete(() {
+                  setState(() {
+                    tap2 = true;
+                  });
+                  // towerBoxProvider.tap(tap1, tap2);
 
-                      towerBoxProvider.tapBlues();
-                      // towerBoxProvider.tap(tap1, tap2);
-                      print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap2' + tap2.toString());
-                      controller.reset();
-                    });
-                  },
-                  onTapUp: (_) {
-                    tap2 = false;
-                    print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap2' + tap2.toString());
-                    if (controller.status == AnimationStatus.forward) {
-                      controller.reverse();
-                    }
-                  },
-                ),
-              ],
+                  towerBoxProvider.tapBlues();
+                  // towerBoxProvider.tap(tap1, tap2);
+                  print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap2' + tap2.toString());
+                  controller2.reset();
+                });
+              },
+              onTapUp2: (_) {
+                tap2 = false;
+                print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap2' + tap2.toString());
+                if (controller2.status == AnimationStatus.forward) {
+                  controller2.reverse();
+                }
+              },
             ),
           ),
         ],
