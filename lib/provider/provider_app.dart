@@ -14,7 +14,7 @@ class TowerBoxProvider extends ChangeNotifier {
   late String name;
   late bool tapPink;
   late bool tapBlue;
-  late bool tabPinka, tabBluea;
+  // late bool tabPinka, tabBluea;
 
   tower() {
     List no = ['pink', 'blue'];
@@ -49,8 +49,8 @@ class TowerBoxProvider extends ChangeNotifier {
 
   tapBlues() {
     // Future.delayed(const Duration(seconds: 2), () {
-    tapBlue = true;
-    print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tapBlue.toString());
+    // tapBlue = true;
+    // print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tapBlue.toString());
 
     if (box[0] == 'blue') {
       print(box);
@@ -64,8 +64,8 @@ class TowerBoxProvider extends ChangeNotifier {
   }
 
   tapPinks() {
-    tapPink = true;
-    print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tapPink.toString());
+    // tapPink = true;
+    // print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tapPink.toString());
     // Future.delayed(const Duration(seconds: 2), () {
     if (box[0] == 'pink') {
       print(box);
@@ -78,14 +78,15 @@ class TowerBoxProvider extends ChangeNotifier {
     // });
   }
 
-  tap() {
-    Future.delayed(const Duration(seconds: 2), () {
+  tap(bool tapPinka,bool tapBluea) {
+    // Future.delayed(const Duration(seconds: 2), () {
+      
       if (box[0] == 'purple') {
-        print(tapPink);
-        print(tapBlue);
-        if (tapPink == true && tapBlue == true) {
-          // box.removeAt(0);
+        if (tapPinka && tapBluea) {
+          box.removeAt(0);
           print(box);
+                  (print('Yessssssssssssssssss'));
+
         }
         // else {
         //   (print('Nooooooooooooo'));
@@ -95,7 +96,7 @@ class TowerBoxProvider extends ChangeNotifier {
       }
 
       notifyListeners();
-    });
+    // });
   }
 
   // notifyListeners();

@@ -39,7 +39,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  bool tap1 = false, tap2 = false, tapPink = false;
+  bool tap1 = false, tap2 = false, tapPink = false, tap3 = false;
   late Animation<double> animation;
   late AnimationController controller;
   double h = 0.0;
@@ -80,129 +80,52 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 Buttons(
                   color: ColorApp.pink,
                   controller: controller,
-                  onTapDown: () {
+                  onTapDown: (_) {
                     controller.forward().whenComplete(() {
                       tap1 = true;
-                      towerBoxProvider.tapBlues();
+                      tap3 = true;
+
+                      towerBoxProvider.tapPinks();
+                      // towerBoxProvider.tap(tap1, tap2);
+                      print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
+                      print('mmmmmmmmmmmmmmmmm--------mmmmmmmmmtap2' +
+                          tap3.toString());
+
+                      towerBoxProvider.tap(tap1, tap3);
                       controller.reset();
                     });
-
-                    print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1');
                   },
-                  onTapUp: () {
+                  onTapUp: (_) {
+                    tap1 = false;
+                    print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
                     if (controller.status == AnimationStatus.forward) {
                       controller.reverse();
-                      tap1 = false;
                     }
                   },
                 ),
-//                 Container(
-//                   width: size.width * 0.18,
-//                   height: size.height * 0.10,
-//                   decoration: BoxDecoration(
-//                       color: ColorApp.pink,
-//                       shape: BoxShape.circle,
-//                       border: Border.all(color: ColorApp.black)),
-//                   child: GestureDetector(
-//                     onTap: () {
-//                       if (towerBoxProvider.box[0] == 'pink') {
-//                         tap2 = true;
-//                         towerBoxProvider.tapPinks(tap2);
-//                       } else {
-//                         tap2 = false;
-//                       }
+                Buttons(
+                  color: ColorApp.blue,
+                  controller: controller,
+                  onTapDown: (_) {
+                    controller.forward().whenComplete(() {
+                      setState(() {
+                        tap2 = true;
+                      });
 
-//                       if (tap1 == false && tap2 == false) {
-//                         // towerBoxProvider.tap();
-//                       } else {
-//                         print('hhhhhhhhhhhhhhhmmmmmmmmmmm');
-//                       }
-// //                       Future.delayed(const Duration(seconds: 2), () {
-// //                         if (towerBoxProvider.box[0] == 'pink') {
-// //                           print(towerBoxProvider.box);
-// //                           tapPink = true;
-// //                           // towerBoxProvider.onTap();
-// //                           towerBoxProvider.box.removeAt(0);
-// //                         } else {
-// //                           (print('box is blue'));
-// //                         }
-// //                         //
-// //                         //
-// // // Here you can write your code
-
-// //                         setState(() {
-// //                           // Here you can write your code for open new view
-// //                         });
-// //                       });
-//                       print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap2' + tap2.toString());
-
-//                       //
-//                     },
-
-//                     // onTap: () {
-//                     // print(towerBoxProvider.box[0]);
-//                     // change();
-
-//                     // tapPink == true;
-//                     // List b = towerBoxProvider.box.sublist(0);
-//                     // print (b);
-//                     // setState(() {});
-
-//                     // towerBoxProvider.onTap();
-//                     // },
-//                     // onTapDown: (details) {
-//                     //                       towerBoxProvider.onTap();
-
-//                     // },
-//                     // onTapUp: ,
-//                   ),
-//                 ),
-                Container(
-                  width: size.width * 0.18,
-                  height: size.height * 0.10,
-                  decoration: BoxDecoration(
-                      color: ColorApp.blue,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: ColorApp.black)),
-                  child: GestureDetector(
-                    onTapUp: (_) {
-                      tap1 = false;
-                      print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
-                    },
-                    onTapDown: (_) {
-                      tap1 = true;
                       towerBoxProvider.tapBlues();
-                      print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
-                    },
-
-                    // onTap: () {
-                    // if (towerBoxProvider.box[0] == 'blue') {
-
-                    // } else {
-                    //   tap1 = false;
-                    // }
-
-                    // Future.delayed(const Duration(seconds: 2), () {
-                    //   if (towerBoxProvider.box[0] == 'blue') {
-                    //     print(towerBoxProvider.box);
-                    //     // towerBoxProvider.onTap();
-                    //     towerBoxProvider.box.removeAt(0);
-                    //   } else {
-                    //     (print('box is pink'));
-                    //   }
-                    //   setState(() {
-                    //     // Here you can write your code for open new view
-                    //   });
-                    // });
-
-                    // print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
-
-                    // towerBoxProvider.tap();
-                    // },
-                  ),
+                      // towerBoxProvider.tap(tap1, tap2);
+                      print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap2' + tap2.toString());
+                      controller.reset();
+                    });
+                  },
+                  onTapUp: (_) {
+                    tap2 = false;
+                    print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap2' + tap2.toString());
+                    if (controller.status == AnimationStatus.forward) {
+                      controller.reverse();
+                    }
+                  },
                 ),
-
-                // Buttons(color: ColorApp.blue)
               ],
             ),
           ),
@@ -210,6 +133,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  tap(bool tapPinka, bool tapBluea, TowerBoxProvider towerBoxProvider) {
+    // Future.delayed(const Duration(seconds: 2), () {
+
+    if (towerBoxProvider.box[0] == 'purple') {
+      if (tapPinka == tapPinka && tapBluea == tapBluea) {
+        towerBoxProvider.box.removeAt(0);
+        print(towerBoxProvider.box);
+        (print('Yessssssssssssssssss'));
+      }
+      // else {
+      //   (print('Nooooooooooooo'));
+      // }
+    } else {
+      (print('Nooooooooooooo3333333'));
+    }
+
+    // notifyListeners();
+    // });
   }
 
   Container horizonBox(Size size, TowerBoxProvider towerBoxProvider) {

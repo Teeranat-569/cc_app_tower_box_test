@@ -8,8 +8,8 @@ class Buttons extends StatelessWidget {
   Color color;
   AnimationController controller;
   late bool tap1;
-  late Function onTapDown;
-  late Function onTapUp;
+  Function(TapDownDetails)? onTapDown;
+ Function(TapUpDetails)? onTapUp;
 
   Buttons({Key? key, required this.color, required this.controller,required this.onTapDown,required this.onTapUp})
       : super(key: key);
@@ -20,8 +20,8 @@ class Buttons extends StatelessWidget {
     TowerBoxProvider towerBoxProvider = Provider.of<TowerBoxProvider>(context);
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTapDown: (_) => onTapDown,
-      onTapUp: (_) =>onTapUp,
+      onTapDown:onTapDown,
+      onTapUp:onTapUp,
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
