@@ -1,31 +1,21 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// class MyList extends StatelessWidget {
-//   final List<Item> items;
-//   final List<int> selectedItemIdList;
-//   final void Function(Item) onLongClick;
+class DrawTriangle extends CustomPainter {
+  @
+override
 
-//   MyList(this.items, this.selectedItemIdList, this.onLongClick);
+  void paint(Canvas canvas, Size size) {
+    var path = Path();
+    path.moveTo(size.width / 2, 0);
+    path.lineTo(0, size.height);
+    path.lineTo(size.height, size.width);
+    path.close();
+    canvas.drawPath(path, Paint()..color = Colors.black);
+  }
+  @
+override
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//       itemBuilder: (context, position) {
-//         //remember all you need to do here is to create your item based on the data you have
-//         var item = items[position];
-//         var isSelected = items.firstWhere((element) => item.id == element.id) != null;
-//         if (isSelected) {
-//           //build and return a widget with selected look
-//         } else {
-//           return GestureDetector(
-//             onLongPress: () => onLongClick(item), //changes data in homepage then MyList will be updated automatically
-//             child: Container(
-//               //rest of your widget
-//             ),
-//           );
-//         }
-//       },
-//       itemCount: items.length,
-//     );
-//   }
-// }
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+}

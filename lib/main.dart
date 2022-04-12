@@ -2,6 +2,7 @@
 import 'dart:math' as math;
 
 import 'package:cc_app_tower_box_test/button.dart';
+import 'package:cc_app_tower_box_test/fff.dart';
 import 'package:cc_app_tower_box_test/provider/provider_app.dart';
 import 'package:cc_app_tower_box_test/style/color_app.dart';
 import 'package:flutter/material.dart';
@@ -39,11 +40,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  bool tap1 = false, tap2 = false, tapPink = false, tap3 = false;
+  bool tap1 = false, tap2 = false, tapPink = false, tap3 = true, tap4 = true;
   late Animation<double> animation, animation2;
   late AnimationController controller, controller2;
   double h = 0.0;
-  dynamic kk;
+  List<dynamic> kk = [];
+  int level = 0;
   @override
   void initState() {
     super.initState();
@@ -56,23 +58,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     animation2 = Tween<double>(end: 0).animate(controller2)
       ..addListener(() {
         setState(() {});
-        // print('$status');
       });
 
     animation = Tween<double>(end: 0).animate(controller)
       ..addListener(() {
         setState(() {});
-        // print('$status');
       });
-    //  controller.forward();
+
+    print('*********************' + level.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     TowerBoxProvider towerBoxProvider = Provider.of<TowerBoxProvider>(context);
-    kk = towerBoxProvider.box;
-    // print(kk);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -88,23 +87,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               color: ColorApp.pink,
               controller: controller,
               onTapDown: (_) {
-                // towerBoxProvider.onTap();
                 controller.forward().whenComplete(() {
                   tap1 = true;
-                  // tap3 = true;
-
-                  towerBoxProvider.tapPinks();
-                  // towerBoxProvider.tap(tap1, tap2);
+                  towerBoxProvider.tapPinks(level++);
                   print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
-                  // print('mmmmmmmmmmmmmmmmm--------mmmmmmmmmtap2' +
-                  //     tap3.toString());
-
-                  towerBoxProvider.tap(tap1, tap2);
+                  towerBoxProvider.tapAll(tap1, tap2, level++, context);
+                  print('dddddddddddddddddd---------' + level.toString());
                   controller.reset();
                 });
               },
               onTapUp: (_) {
                 tap1 = false;
+                tap3 = true;
                 print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap1' + tap1.toString());
                 if (controller.status == AnimationStatus.forward) {
                   controller.reverse();
@@ -115,16 +109,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   setState(() {
                     tap2 = true;
                   });
-                  // towerBoxProvider.tap(tap1, tap2);
-
-                  towerBoxProvider.tapBlues();
-                  // towerBoxProvider.tap(tap1, tap2);
+                  towerBoxProvider.tapBlues(level++);
+                  tap4 = false;
+                  print('dddddddddddddddddd---------' + level.toString());
+                  towerBoxProvider.tapAll(tap2, tap1, level++, context);
                   print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap2' + tap2.toString());
                   controller2.reset();
                 });
               },
               onTapUp2: (_) {
                 tap2 = false;
+                tap3 = true;
+
                 print('mmmmmmmmmmmmmmmmmmmmmmmmmmtap2' + tap2.toString());
                 if (controller2.status == AnimationStatus.forward) {
                   controller2.reverse();
@@ -134,31 +130,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
         ],
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
-  tap(bool tapPinka, bool tapBluea, TowerBoxProvider towerBoxProvider) {
-    // Future.delayed(const Duration(seconds: 2), () {
-
-    if (towerBoxProvider.box[0] == 'purple') {
-      if (tapPinka == tapPinka && tapBluea == tapBluea) {
-        towerBoxProvider.box.removeAt(0);
-        print(towerBoxProvider.box);
-        (print('Yessssssssssssssssss'));
-      }
-      // else {
-      //   (print('Nooooooooooooo'));
-      // }
-    } else {
-      (print('Nooooooooooooo3333333'));
-    }
-
-    // notifyListeners();
-    // });
-  }
-
-  Container horizonBox(Size size, TowerBoxProvider towerBoxProvider) {
+  Widget horizonBox(Size size, TowerBoxProvider towerBoxProvider) {
     return Container(
       width: size.width,
       height: size.height * 0.8375,
@@ -169,30 +144,62 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           shrinkWrap: true,
           itemBuilder: (_, index) {
             final item = towerBoxProvider.box[index];
-            // print(item);
-            if (towerBoxProvider.box.isEmpty) {
-              // ignore: avoid_unnecessary_containers
-              return Container(
-                child: const Text('data'),
-              );
-            } else {
-              return Align(
-                  child: item == 'pink'
-                      ? tapPink == true
-                          ? Container()
-                          : boxs(size, ColorApp.pink, item.toString())
-                      : item == 'blue'
-                          ? boxs(size, ColorApp.blue, item.toString())
-                          : Transform.rotate(
-                              angle: math.pi / 4,
-                              alignment: Alignment.center,
-                              child: Container(
-                                width: 164.71,
-                                height: 164.71,
-                                color: ColorApp.purple,
-                              ),
-                            ));
-            }
+            final boxFirst = towerBoxProvider.box;
+            print(boxFirst[0].toString());
+            return Row(mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (index==0 )
+                  // ignore: avoid_unnecessary_containers
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Transform.rotate(angle: math.pi/2,
+                      child: Container(
+                        child: CustomPaint(
+                            size: Size(24, 24), painter: DrawTriangle()),
+                      ),
+                    ),
+                  ),
+                Align(
+                    child: item == 'pink'
+                        ? boxs(size, ColorApp.pink, item.toString())
+                        : item == 'blue'
+                            ? boxs(size, ColorApp.blue, item.toString())
+                            : Transform.rotate(
+                                angle: math.pi / 4,
+                                alignment: Alignment.center,
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: ColorApp.purple,
+                                          border: Border.all(
+                                              color: ColorApp.black)),
+                                      width: 170,
+                                      height: 170,
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    )
+                                  ],
+                                ),
+                              )),
+                               if (index==0 )
+                  // ignore: avoid_unnecessary_containers
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Transform.rotate(
+                      angle: math.pi/-2,
+                      child: Container(
+                        child: CustomPaint(
+                            size: Size(24, 24), painter: DrawTriangle()),
+                      ),
+                    ),
+                  ),
+              ],
+            );
           },
           separatorBuilder: (BuildContext context, int index) => const SizedBox(
                 height: 5,
@@ -206,15 +213,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       decoration: BoxDecoration(
           color: colorApp,
           borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-          // shape: BoxShape.circle,
           border: Border.all(color: ColorApp.black)),
-
       width: size.width * 0.33,
       height: size.height * 0.10,
-      // color: colorApp,
       child: Text(name),
     );
   }
-}
 
-// ignore: camel_case_types
+  Widget ss(var counter) {
+    return Text('nnnnnnnnnnnnnnnnnnn' + counter.toString());
+  }
+}

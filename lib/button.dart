@@ -35,6 +35,7 @@ class Buttons extends StatelessWidget {
         GestureDetector(
           onTapDown: onTapDown,
           onTapUp: onTapUp,
+          
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
