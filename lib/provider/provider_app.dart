@@ -2,8 +2,10 @@
 
 import 'dart:async';
 import 'dart:math';
+import 'package:async/async.dart';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TowerBoxProvider extends ChangeNotifier {
   dynamic booo;
@@ -12,6 +14,7 @@ class TowerBoxProvider extends ChangeNotifier {
   List<int> timea = [];
   List<int> oo = [];
   List<int> pp = [];
+  late int level = 0;
 
   late Timer timer;
   late int index;
@@ -19,81 +22,76 @@ class TowerBoxProvider extends ChangeNotifier {
   late bool tapPink;
   late bool tapBlue;
   var counter = 0;
+  final restartableTimer = RestartableTimer(const Duration(seconds: 3), () {
+    //Callback
+    // print(restartableTimer.tick);
+  });
 
-  // late bool tabPinka, tabBluea;
+  tower(int level) {
+    level = 0;
 
-  tower() {
     List no = ['pink', 'blue'];
     Random random = Random();
-
     for (var i = 0; i < 9; i++) {
       bool bo = random.nextBool();
       no.shuffle();
       booo = bo;
-      // box.add({'color': no[0], 'show' : booo});
       box.add(no[0]);
       print(box[i]);
     }
     box.add('purple');
     print(box);
-    // print(box.first);
     for (var i = 0; i < box.length; i++) {
       print(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,');
       print(box[i]);
     }
+    restartableTimer.reset();
   }
 
-  tapBlues(int level) {
+  tapBlues(int level, BuildContext context) {
     print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv2222222---' +
         level.toString());
     if (box[0] == 'blue') {
-      // print('hhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
-      // print(box.first);
-      print('mmmmmmmmmmmmmmmmmmm');
-
+      print('This box blue');
       box.removeAt(0);
       print(box);
 
-      if (level == 0) {
+      if (counter == 0) {
         timer = Timer.periodic(const Duration(seconds: 1), (timer) {
           print(timer.tick);
           counter++;
         });
       }
-
-      // level++;
-      if (level == 1) {
-        print('22222222222222222222');
-      }
-      // level++;
+    } else if (box[0] == 'purple') {
+      snackBar(context, 'Box is Purple.');
     } else {
       (print('box is pink'));
+      snackBar(context, 'Box is Pink.');
     }
 
     notifyListeners();
   }
 
-  tapPinks(int level) {
-    print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv111111---' +
-        level.toString());
+  tapPinks(int level, BuildContext context) {
+    print('level---' + level.toString());
     if (box[0] == 'pink') {
-      print('hhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
+      print('This box pink');
       box.removeAt(0);
       print(box);
-      if (level == 0) {
+      if (counter == 0) {
         timer = Timer.periodic(const Duration(seconds: 1), (timer) {
           print(timer.tick);
           counter++;
         });
       }
-      if (level == 1) {
-        print('ggggggggggggggggggggggg');
-      }
 
       // level++;
+    } else if (box[0] == 'purple') {
+      snackBar(context, 'Box is Purple.');
     } else {
       (print('box is blue'));
-      // level--;
+
+      snackBar(context, 'Box is Blue.');
     }
     // level++;
 
@@ -106,15 +104,25 @@ class TowerBoxProvider extends ChangeNotifier {
       if (tapPinka && tapBluea) {
         box.removeAt(0);
         print(box);
-        (print('Yessssssssssssssssss////'));
-        (print('Yesssssssssssssnnnn--******sssss////'));
+        (print('this box purple'));
+        (print('Yesssssssssssss////'));
         print(timea);
         timer.cancel();
+
         print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa' + counter.toString());
         _showMyDialog(context, counter.toString());
+      } else {
+        Fluttertoast.showToast(
+            msg: "กด 2 ปุ่ม\nค้างไว้ 2 วินาที\nเพื่อทำลาย Block สุดท้าย",
+            gravity: ToastGravity.CENTER,
+            toastLength: Toast.LENGTH_SHORT,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
     } else {
-      (print('Nooooooooooooo3333333'));
+      (print('Nooooooooooooo'));
     }
 
     notifyListeners();
@@ -130,21 +138,45 @@ class TowerBoxProvider extends ChangeNotifier {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('This is Time ${text}'),
+                Text(
+                  'Total Time $text s',
+                  style: const TextStyle(fontSize: 20),
+                ),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Approve'),
+              child: const Text('Reset'),
               onPressed: () {
-                Navigator.of(context).pop();
-                tower();
+                Navigator.of(context).pop(tower(0));
+                // tapPinksv(20);
+                // timer = Timer(0, _callback);
+                resetTime();
+                notifyListeners();
               },
             ),
           ],
         );
       },
     );
+  }
+
+  snackBar(BuildContext context, String text) {
+    final snackBar = SnackBar(
+      content: Text(text),
+      // action: SnackBarAction(
+      //   label: 'Undo',
+      //   onPressed: () {},
+      // ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    notifyListeners();
+  }
+
+  resetTime() {
+    // level = 0;
+    counter = 0;
   }
 }
