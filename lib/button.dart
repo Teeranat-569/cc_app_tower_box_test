@@ -16,14 +16,14 @@ class Buttons extends StatelessWidget {
   Buttons(
       {Key? key,
       this.color,
-    this.controller,
-   this.onTapDown,
-    this.onTapUp,
-    this.color2,
-     this.controller2,
+      this.controller,
+      this.onTapDown,
+      this.onTapUp,
+      this.color2,
+      this.controller2,
       this.onTapDown2,
       this.onTapUp2,
-    this.orientation})
+      this.orientation})
       : super(key: key);
 
   @override
@@ -99,7 +99,8 @@ class Buttons extends StatelessWidget {
                   child: CircularProgressIndicator(
                     strokeWidth: 8,
                     value: controller2?.value,
-                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Colors.green),
                   ),
                 ),
               ],
