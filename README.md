@@ -1,16 +1,15 @@
-# cc_app_tower_box_test
+# CC Tower Box Test
 
-A new Flutter project.
+แอปพลิเคชันทำลาย Block ให้ตรงกับสีของปุ่ม
 
-## Getting Started
+![Screenshot_2022-04-13-12-24-08-250_com example cc_app_tower_box_test](https://user-images.githubusercontent.com/73885465/163106763-aed1a98b-58d4-4157-b794-12c06de84647.jpg)
 
-This project is a starting point for a Flutter application.
+## How to play
 
-A few resources to get you started if this is your first Flutter project:
+1. สามารถทำลาย Block ให้ตรงตามสีของปุ่มโดยการกดค้างที่ปุ่ม 2 วินาทีเพื่อทำลาย Block
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+2. เมื่อทำลาย Block กล่องแรกเวลาจะจับทันที
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3. เมื่อถึง Block สี่เหลี่ยมข้าวหลามตัดให้ทำการกดค้างทั้ง 2 ปุ่มเป็นเวลา 2 วินาทีเพื่อทำลาย Block
+
+4. เมื่อทำลาย Block ทุกกล่องจนหมดจะมีเวลาสรุปตอนจบเกม และสามารถรีเซ็ตเกมเพื่อเริ่มทำลาย Block ใหม่ได้
